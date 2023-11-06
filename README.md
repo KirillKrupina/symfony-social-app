@@ -1,0 +1,1 @@
+Symfony social app project via docker

@@ -1,0 +1,22 @@
+version: "3.8"
+
+services:
+  nginx:
+    container_name: nginx
+    build:
+      context: nginx
+    ports:
+      - "8080:80"
+    volumes:
+      - ../app:/var/www
+    depends_on:
+      - php-fpm
+  php-fpm:
+    container_name: php-fpm
+    build:
+      context: ""
+      dockerfile: php/Dockerfile
+    ports:
+      - "9000:9000"
+    volumes:
+      - ../app:/var/www
