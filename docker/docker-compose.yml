@@ -6,11 +6,12 @@ services:
     build:
       context: nginx
     ports:
-      - "8080:80"
+      - "8000:80"
     volumes:
       - ../app:/var/www
     depends_on:
       - php-fpm
+
   php-fpm:
     container_name: php-fpm
     build:
@@ -20,3 +21,26 @@ services:
       - "9000:9000"
     volumes:
       - ../app:/var/www
+    depends_on:
+      - db
+
+  db:
+    container_name: db
+    image: mariadb:11.1.2
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - "3306:3306"
+    volumes:
+      - 'db_data:/var/lib/mysql'
+
+  adminer:
+    container_name: adminer
+    image: adminer
+    restart: always
+    ports:
+      - "8080:8080"
+
+volumes:
+  db_data:
