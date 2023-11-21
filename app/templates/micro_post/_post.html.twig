@@ -18,7 +18,13 @@
     <div class="text-sm text-gray-500 dark:text-gray-400">
         <a href="#">Author: author@mail.com</a>
     </div>
-    <div>
-        <a href="{{ path('app_micro_post_edit', {post: post.id}) }}">Edit post</a>
+    <div class="flex">
+        <a class="mr-2" href="{{ path('app_micro_post_edit', {post: post.id}) }}">
+            Edit post
+        </a>
+        <a href="{{ path('app_micro_post_comment', {post: post.id}) }}">
+            Comment
+            <span class="px-2 rounded-md bg-gray-200 dark:bg-gray-700">{{ post.comments.count }}</span>
+        </a>
     </div>
 </div>

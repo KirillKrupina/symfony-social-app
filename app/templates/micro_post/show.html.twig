@@ -2,8 +2,23 @@
 
 {% block title %}Post #{{ post.id }} - {{ post.title }}{% endblock %}
 
-{% block breadcrumbs %}/ Post{% endblock %}
+{% block breadcrumbs %}/ Post #{{ post.id }}{% endblock %}
 
 {% block body %}
     {{ include('micro_post/_post.html.twig', {post: post}) }}
+
+    <div class="mt-4">
+        {% for comment in post.comments %}
+            <div class="mt-5">
+                <div class="flex items-center">
+                    <div class="inline-block bg-gray-200 dark:bg-gray rounded-full text-3xl w-8 h-8 ring-2 ring-white dark:ring-gray-6 mr-2"></div>
+                    <div>
+                        <div class="font-medium text-gray-800 dark:text-gray-300">Author</div>
+                        <div class="font-light text-gray-500 dark:text-gray-500">Date</div>
+                    </div>
+                </div>
+                <div class="pt-4">{{ comment.text }}</div>
+            </div>
+        {% endfor %}
+    </div>
 {% endblock %}

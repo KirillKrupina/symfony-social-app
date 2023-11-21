@@ -2,7 +2,7 @@
 
 {% block title %}Editing post #{{ data.post_id }}{% endblock %}
 
-{% block breadcrumbs %}/ Edit post{% endblock %}
+{% block breadcrumbs %}/ <a href="{{ path('app_micro_post_show', {post: data.post_id}) }}">Post #{{ data.post_id }} / Edit{% endblock %}
 
 {% block body %}
     {{ include ('micro_post/_form.html.twig')}}
