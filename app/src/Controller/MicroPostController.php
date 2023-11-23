@@ -40,8 +40,13 @@ class MicroPostController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            /**
+             * @type MicroPost $post
+             */
             $post = $form->getData();
             $post->setCreated(new \DateTime());
+            $user = $this->getUser();
+            $post->setAuthor($user);
 
             $microPostRepository->add($post, true);
 
@@ -84,8 +89,13 @@ class MicroPostController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            /**
+             * @type Comment $comment
+             */
             $comment = $form->getData();
             $comment->setPost($post);
+            $user = $this->getUser();
+            $comment->setAuthor($user);
 
             $commentRepository->add($comment, true);
 
