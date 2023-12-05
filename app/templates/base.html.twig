@@ -27,8 +27,8 @@
 
     <div class="text-right">
         {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-            {% if is_granted('ROLE_EDITOR') %}
-                <div>
+            {% if is_granted('ROLE_VERIFIED') %}
+                <div class="text-sm text-gray-400 dark:text-gray-500">
                     <a href="{{ path('app_micro_post_add') }}">Add new</a>
                 </div>
             {% endif %}
