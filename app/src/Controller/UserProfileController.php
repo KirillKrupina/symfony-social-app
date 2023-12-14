@@ -16,4 +16,20 @@ class UserProfileController extends AbstractController
             'user' => $user
         ]);
     }
+
+    #[Route('/user/profile/follows/{id}', name: 'app_user_profile_follows')]
+    public function follows(User $user): Response
+    {
+        return $this->render('user_profile/follows.html.twig', [
+            'user' => $user
+        ]);
+    }
+
+    #[Route('/user/profile/followers/{id}', name: 'app_user_profile_followers')]
+    public function followers(User $user): Response
+    {
+        return $this->render('user_profile/followers.html.twig', [
+            'user' => $user
+        ]);
+    }
 }
