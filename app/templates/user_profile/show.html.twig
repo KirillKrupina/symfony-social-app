@@ -7,6 +7,6 @@
 {% block body %}
     {{ include ('user_profile/_profile_header.html.twig') }}
     {{ include ('user_profile/_profile_tabs.html.twig') }}
-    {{ include ('micro_post/_post_list.html.twig', {posts: user.posts}) }}
+    {{ include ('micro_post/_post_list.html.twig', {posts: posts}) }}
 {% endblock body %}
 

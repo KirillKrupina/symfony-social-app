@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\MicroPost;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -41,12 +42,49 @@ class MicroPostRepository extends ServiceEntityRepository
 
     public function findAllWithComments(): array
     {
-        return $this->createQueryBuilder('p')
-            ->addSelect('c')
-            ->leftJoin('p.comments', 'c')
-            ->orderBy('p.created', 'DESC')
+        return $this->findAllQuery(
+            isWithComments: true
+        )->getQuery()
+            ->getResult();
+    }
+
+    public function findAllByAuthor(int $author): array
+    {
+        return $this->findAllQuery(
+            isWithComments: true,
+            isWithLikes: true,
+            isWithAuthor: true
+        )->where('p.author = :author')
+            ->setParameter('author', $author)
             ->getQuery()
             ->getResult();
+    }
+
+    private function findAllQuery(
+        bool $isWithComments = false,
+        bool $isWithLikes = false,
+        bool $isWithAuthor = false
+    ): QueryBuilder
+    {
+        $query = $this->createQueryBuilder('p');
+
+        if ($isWithComments) {
+            $query
+                ->leftJoin('p.comments', 'c')
+                ->addSelect('c');
+        }
+        if ($isWithLikes) {
+            $query->leftJoin('p.likedBy', 'l')
+                ->addSelect('l');
+        }
+        if ($isWithAuthor) {
+            $query->leftJoin('p.author', 'a')
+                ->addSelect('a');
+            $query->leftJoin('a.userProfile', 'up')
+                ->addSelect('up');
+        }
+
+        return $query->orderBy('p.created', 'DESC');
     }
 
 //    /**
