@@ -1,0 +1,34 @@
+{% embed 'shared/_tabs.html.twig' %}
+    {% block tabs %}
+
+        {% embed 'shared/_tab.html.twig' with { route: 'app_micro_post' } %}
+            {% block path %}
+                {{ path('app_micro_post') }}
+            {% endblock %}
+            {% block content %}
+                All posts
+            {% endblock %}
+        {% endembed %}
+
+        {% embed 'shared/_tab.html.twig' with { route: 'app_micro_post_top_liked', classes: 'ml-2' } %}
+            {% block path %}
+                {{ path('app_micro_post_top_liked') }}
+            {% endblock %}
+            {% block content %}
+                Top liked
+            {% endblock %}
+        {% endembed %}
+
+        {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+            {% embed 'shared/_tab.html.twig' with { route: 'app_micro_post_follows', classes: 'ml-2' } %}
+                {% block path %}
+                    {{ path('app_micro_post_follows') }}
+                {% endblock %}
+                {% block content %}
+                    Follows
+                {% endblock %}
+            {% endembed %}
+        {% endif %}
+
+    {% endblock %}
+{% endembed %}

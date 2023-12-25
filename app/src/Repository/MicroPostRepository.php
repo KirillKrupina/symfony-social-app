@@ -4,6 +4,8 @@ namespace App\Repository;
 
 use App\Entity\MicroPost;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\Query;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -87,28 +89,28 @@ class MicroPostRepository extends ServiceEntityRepository
         return $query->orderBy('p.created', 'DESC');
     }
 
-//    /**
-//     * @return MicroPost[] Returns an array of MicroPost objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('m')
-//            ->andWhere('m.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('m.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    public function findAllWithMinimumLikes(int $minimumLikes): array
+    {
+        return $this->findAllQuery(
+            isWithComments: true,
+            isWithLikes: true,
+            isWithAuthor: true
+        )->groupBy('p.id')
+            ->having('COUNT(l) >= :minimumLikes')
+            ->setParameter('minimumLikes', $minimumLikes)
+            ->getQuery()
+            ->getResult();
+    }
 
-//    public function findOneBySomeField($value): ?MicroPost
-//    {
-//        return $this->createQueryBuilder('m')
-//            ->andWhere('m.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+    public function findAllByAuthors(Collection|array $authors): array
+    {
+        return $this->findAllQuery(
+            isWithComments: true,
+            isWithLikes: true,
+            isWithAuthor: true
+        )->where('p.author IN (:authors)')
+            ->setParameter('authors', $authors)
+            ->getQuery()
+            ->getResult();
+    }
 }
