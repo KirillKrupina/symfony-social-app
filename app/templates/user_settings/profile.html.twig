@@ -2,9 +2,11 @@
 
 {% block title %}Profile{% endblock %}
 
-{% block breadcrumbs %}/ Profile{% endblock %}
+{% block breadcrumbs %}/ Profile settings{% endblock %}
 
 {% block body %}
+    {{ include ('user_settings/_settings_profile_tabs.html.twig') }}
+
     {{ form_start(form) }}
     {{ include ('user_settings/_profile_form.html.twig') }}
 
