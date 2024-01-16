@@ -5,15 +5,29 @@
 {% block breadcrumbs %}/ Post #{{ post.id }}{% endblock %}
 
 {% block body %}
+    <div class="flex items-center mb-4">
+        <div>
+            {{ include ('shared/_avatar.html.twig', {'size': 16, profile: post.author.userProfile}) }}
+        </div>
+        <div class="ml-4">
+            <div class="text-xl">
+                <a href="{{ path('app_user_profile_show', {id: post.author.id}) }}">{{ post.author.userProfile.name ??  post.author.email}}</a>
+            </div>
+        </div>
+    </div>
     {{ include('micro_post/_post.html.twig', {post: post}) }}
 
     <div class="mt-4">
         {% for comment in post.comments %}
             <div class="mt-5">
                 <div class="flex items-center">
-                    <div class="inline-block bg-gray-200 dark:bg-gray rounded-full text-3xl w-8 h-8 ring-2 ring-white dark:ring-gray-6 mr-2"></div>
+                    <div class="mr-3">
+                        {{ include ('shared/_avatar.html.twig', {'size': 8, profile: comment.author.userProfile}) }}
+                    </div>
                     <div>
-                        <div class="font-medium text-gray-800 dark:text-gray-300">{{ comment.author.email }}</div>
+                        <div class="font-medium text-gray-800 dark:text-gray-300">
+                            <a href="{{ path('app_user_profile_show', {id:  comment.author.id}) }}">{{ comment.author.email }}</a>
+                        </div>
                         <div class="font-light text-gray-500 dark:text-gray-500">{{ comment.created | date("M j, Y")}}</div>
                     </div>
                 </div>
